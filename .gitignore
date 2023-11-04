@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+venv/
+models/hyperparameter_optimization_models/
+models/pretrained_models/
+
 # User-specific files
 *.rsuser
 *.suo
