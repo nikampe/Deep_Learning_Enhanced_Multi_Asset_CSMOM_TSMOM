@@ -5,7 +5,9 @@
 
 venv/
 models/hyperparameter_optimization_models/
-models/pretrained_models/
+models/pretrained_models
+__pycache__/
+*.pyc
 
 # User-specific files
 *.rsuser
