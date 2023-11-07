@@ -8,6 +8,7 @@ models/hyperparameter_optimization_models/
 models/pretrained_models/
 __pycache__/
 *.pyc
+*.npy
 
 # User-specific files
 *.rsuser
