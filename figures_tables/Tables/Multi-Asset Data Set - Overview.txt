@@ -1,0 +1,56 @@
+\begin{tabular}{lllll}
+\toprule
+ & Asset & Asset Class & Start Date & Geography \\
+\midrule
+HS & Hang Seng, Index & EQUITIES (EQ) & 1997-10-22 & Hong Kong \\
+AX & DAX 40, Index & EQUITIES (EQ) & 1997-11-05 & Germany \\
+LX & FTSE 100, Index & EQUITIES (EQ) & 1990-01-02 & Great Britian \\
+ES & S&P 500, Mini & EQUITIES (EQ) & 1997-09-11 & United States of America \\
+MD & S&P 400, Index & EQUITIES (EQ) & 1992-02-13 & United States of America \\
+NK & Nikkei, Index & EQUITIES (EQ) & 1991-01-02 & Japan \\
+FB & US T-Note (5y) (Comp) & FIXED INCOME (FI) & 1989-01-03 & United States of America \\
+EC & Eurodollar (Comp) & FIXED INCOME (FI) & 1982-02-01 & Euro Zone \\
+DT & Euro Bond (Bund) & FIXED INCOME (FI) & 1989-11-23 & Euro Zone \\
+TU & US T-Note (2y) (Comp) & FIXED INCOME (FI) & 1990-09-20 & United States of America \\
+TY & US T-Note (10y) (Comp) & FIXED INCOME (FI) & 1983-01-03 & United States of America \\
+CB & Canada Govt Bond (10yr) & FIXED INCOME (FI) & 1994-06-01 & Canada \\
+US & US T-Bonds (Comp) & FIXED INCOME (FI) & 1978-01-03 & United States of America \\
+GS & Long Gilt & FIXED INCOME (FI) & 1989-11-23 & Great Britian \\
+SN & Swiss Franc & FOREIGN EXCHANGE (FX) & 1976-01-02 & Switzerland \\
+JN & Japanese Yen & FOREIGN EXCHANGE (FX) & 1978-01-03 & Japan \\
+AN & Australian Dollar (Comp) & FOREIGN EXCHANGE (FX) & 1988-01-04 & Australia \\
+MP & Mexican Peso & FOREIGN EXCHANGE (FX) & 1995-05-03 & Mexico \\
+BN & British Pound & FOREIGN EXCHANGE (FX) & 1976-01-02 & Great Britian \\
+FN & Euro (Comp) & FOREIGN EXCHANGE (FX) & 1975-02-13 & Euro Zone \\
+DX & US Dollar Index & FOREIGN EXCHANGE (FX) & 1986-01-02 & United States of America \\
+CN & Canadian Dollar & FOREIGN EXCHANGE (FX) & 1978-01-03 & Canada \\
+JO & Orange Juice & COMMODITIES (CM) & 1973-01-02 & Global \\
+ZK & Copper & COMMODITIES (CM) & 1989-01-03 & Global \\
+ZL & Soyoil & COMMODITIES (CM) & 1969-01-02 & Global \\
+ZM & Soymeal & COMMODITIES (CM) & 1969-01-02 & Global \\
+ZN & Natural Gas & COMMODITIES (CM) & 1991-01-02 & Global \\
+ZO & Oats & COMMODITIES (CM) & 1975-01-02 & Global \\
+ZP & Platinum & COMMODITIES (CM) & 1973-01-02 & Global \\
+ZR & Rough Rice & COMMODITIES (CM) & 1987-01-02 & Global \\
+ZS & Soybeans & COMMODITIES (CM) & 1969-01-02 & Global \\
+ZT & Live Cattle & COMMODITIES (CM) & 1971-01-04 & Global \\
+ZU & Crude Oil & COMMODITIES (CM) & 1984-01-03 & Global \\
+ZI & Silver & COMMODITIES (CM) & 1973-01-02 & Global \\
+ZG & Gold & COMMODITIES (CM) & 1975-01-02 & Global \\
+ZB & Gasoline & COMMODITIES (CM) & 1985-01-02 & Global \\
+ZC & Corn & COMMODITIES (CM) & 1970-01-05 & Global \\
+GI & Goldmnan Saks C.I. & COMMODITIES (CM) & 1993-01-04 & Global \\
+ZA & Paladium & COMMODITIES (CM) & 1983-01-03 & Global \\
+CC & Cocoa & COMMODITIES (CM) & 1981-01-05 & Global \\
+CT & Cotton & COMMODITIES (CM) & 1973-01-02 & Global \\
+SB & Sugar & COMMODITIES (CM) & 1975-01-02 & Global \\
+DA & Milk & COMMODITIES (CM) & 1997-09-02 & Global \\
+MW & Wheat (Mini) & COMMODITIES (CM) & 1981-01-02 & Global \\
+ZW & Wheat & COMMODITIES (CM) & 1969-01-02 & Global \\
+LB & Lumber & COMMODITIES (CM) & 1974-01-02 & Global \\
+KW & Wheat (KC) & COMMODITIES (CM) & 1977-01-03 & Global \\
+KC & Coffee & COMMODITIES (CM) & 1974-01-02 & Global \\
+ZF & Feeder Cattle & COMMODITIES (CM) & 1978-01-03 & Global \\
+ZZ & Lean Hogs & COMMODITIES (CM) & 1970-01-05 & Global \\
+\bottomrule
+\end{tabular}
