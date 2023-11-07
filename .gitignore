@@ -4,8 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 venv/
-models/hyperparameter_optimization_models/
-models/pretrained_models/
+# models/hyperparameter_optimization_models/
+# models/pretrained_models/
 __pycache__/
 *.pyc
 *.npy
