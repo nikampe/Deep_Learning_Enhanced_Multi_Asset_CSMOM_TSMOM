@@ -19,6 +19,9 @@
 4. For CSMOM: run "python3 backtesting_csmom.py"; For TSMOM: run "python3 backtesting_tsmom.py"
 
 ## Key Results - CSMOM Back-Testing
-![HELLO](/figures_tables/CSMOM%20-%20Model%20Backtesting%20-%20Cumulative%20Returns%20(Log-Scale).pdf)
+![CSMOM Model Backtesting - Cumulative Returns](/figures_tables/CSMOM%20-%20Model%20Backtesting%20-%20Cumulative%20Returns.jpg)
+![CSMOM Model Backtesting - Cumulative Returns (Log-Scale)](/figures_tables/CSMOM%20-%20Model%20Backtesting%20-%20Cumulative%20Returns%20(Log-Scale).jpg)
 
 ## Key Results - TSMOM Back-Testing
+![TSMOM Model Backtesting - Cumulative Returns](/figures_tables/TSMOM%20-%20Model%20Backtesting%20-%20Cumulative%20Returns.jpg)
+![TSMOM Model Backtesting - Cumulative Returns (Log-Scale)](/figures_tables/TSMOM%20-%20Model%20Backtesting%20-%20Cumulative%20Returns%20(Log-Scale).jpg)
