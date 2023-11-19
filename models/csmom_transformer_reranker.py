@@ -128,9 +128,6 @@ class CSMOMTransformerReranker(tf.keras.Model):
         self.num_layers = num_layers
         self.d_model = d_model
 
-        # self.input_embedding = ContinuousEmbedding(d_model-num_categories)
-        # self.categorical_embedding = CategoricalEmbedding(num_categories, num_categories)
-
         self.input_layer = tf.keras.layers.Dense(self.d_model)
 
         self.enc_layers = [EncoderLayer(d_model, num_heads, dff, dropout_rate) for _ in range(num_layers)]
@@ -139,18 +136,9 @@ class CSMOMTransformerReranker(tf.keras.Model):
 
     def call(self, inputs, training):
 
-        # # Input Embedding
-        # continuous_features = inputs[:, :, :-1]
-        # categorical_feature = inputs[:, :, -1]
-        # continuous_embedded = self.input_embedding(continuous_features) 
-        # categorical_embedded = self.categorical_embedding(categorical_feature)
-        # x = tf.concat([continuous_embedded, categorical_embedded], axis=-1)
-
+        # Input Embedding
         x = self.input_layer(inputs)
 
-        # Positional Encoding
-        # x = x + positional_encoding(x.shape[1], x.shape[2])[tf.newaxis,:x.shape[1],:]
-  
         # Encoder Stack
         for i in range(self.num_layers):
             x = self.enc_layers[i](x, training)

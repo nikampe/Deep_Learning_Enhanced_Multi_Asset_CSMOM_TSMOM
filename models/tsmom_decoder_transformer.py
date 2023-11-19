@@ -34,9 +34,7 @@ def positional_encoding(position, d_model):
                             np.arange(d_model)[np.newaxis, :],
                             d_model)
 
-    # apply sin to even indices in the array; 2i
     sines = np.sin(angle_rads[:, 0::2])
-    # apply cos to odd indices in the array; 2i+1
     cosines = np.cos(angle_rads[:, 1::2])
 
     pos_encoding = np.concatenate([sines, cosines], axis=-1)
@@ -62,10 +60,8 @@ class ScaledDotProductAttention(tf.keras.layers.Layer):
         if mask is not None:
             attn_logits += (mask * -1e9)
         
-        # Softmax to get the weights
         attn_weights = tf.nn.softmax(attn_logits, axis=-1)
         
-        # Multiply weights by V to get new "context" vectors
         output = tf.matmul(attn_weights, V)
         return output, attn_weights
 
@@ -140,9 +136,6 @@ class TSMOMDecoderTransformer(tf.keras.Model):
         self.d_model = d_model
         self.num_layers = num_layers
 
-        # self.input_embedding = ContinuousEmbedding(d_model-num_categories)
-        # self.categorical_embedding = CategoricalEmbedding(num_categories, num_categories)
-
         self.embedding = tf.keras.layers.Dense(d_model)
         self.pos_encoding = positional_encoding(seq_size, d_model)
 
@@ -155,13 +148,7 @@ class TSMOMDecoderTransformer(tf.keras.Model):
 
     def call(self, inputs, training):
 
-        # # Input Embedding
-        # continuous_features = inputs[:, :, :-1]
-        # categorical_feature = inputs[:, :, -1]
-        # continuous_embedded = self.input_embedding(continuous_features) 
-        # categorical_embedded = self.categorical_embedding(categorical_feature)
-        # x = tf.concat([continuous_embedded, categorical_embedded], axis=-1)
-
+        # Input Embedding
         x = self.embedding(inputs)
         x = x + self.pos_encoding[:, :tf.shape(x)[1], :]
 
