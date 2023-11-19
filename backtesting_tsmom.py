@@ -132,7 +132,7 @@ def run_tsmom_encoder_decoder_transformer(data_tsmom, preload_model=False, prelo
                     x = (X_enc_arr_train[i], X_dec_arr_train[i]),
                     y = y_arr_train[i],
                     batch_size = encoder_decoder_transformer_tsmom_best_params.get('batch_size'),
-                    epochs = 300, # hyperparams_fixed_tsmom["Encoder_Decoder_Transformer"]["epochs"],
+                    epochs = 300,
                     validation_data=((X_enc_arr_valid[i], X_dec_arr_valid[i]), y_arr_valid[i]),
                     callbacks=[early_stopping_tsmom_encoder_decoder])
                 encoder_decoder_transformer_tsmom_histories.append(history_tsmom)
@@ -233,7 +233,7 @@ def run_tsmom_decoder_transformer(data_tsmom, preload_model=False, preload_weigh
                     x = X_arr_train[i],
                     y = y_arr_train[i],
                     batch_size = decoder_transformer_tsmom_best_params.get('batch_size'),
-                    epochs = 300, # hyperparams_fixed_tsmom["Decoder_Transformer"]["epochs"],
+                    epochs = 300,
                     validation_data=(X_arr_valid[i], y_arr_valid[i]),
                     callbacks=[early_stopping_tsmom_decoder])
                 deocder_transformer_tsmom_histories.append(decoder_transformer_tsmom_history)
@@ -252,7 +252,7 @@ def run_tsmom_decoder_transformer(data_tsmom, preload_model=False, preload_weigh
             decoder_transformer_tsmom_weights_interval = np.split(decoder_transformer_tsmom_weights_interval, decoder_transformer_tsmom_weights_interval.shape[0] // strategy_params_tsmom["num_assets"])
             decoder_transformer_tsmom_weights_interval = np.hstack(decoder_transformer_tsmom_weights_interval)
             decoder_transformer_tsmom_weights_interval = np.transpose(decoder_transformer_tsmom_weights_interval)
-            #  Stack Interval Weights
+            # Stack Interval Weights
             decoder_transformer_tsmom_weights = np.vstack([decoder_transformer_tsmom_weights, decoder_transformer_tsmom_weights_interval]) if len(decoder_transformer_tsmom_weights) > 0 else decoder_transformer_tsmom_weights_interval
         # Save Weights in txt File
         np.savetxt(f"data/predictions/tsmom_decoder_transformer_weights.csv", decoder_transformer_tsmom_weights, delimiter=",")

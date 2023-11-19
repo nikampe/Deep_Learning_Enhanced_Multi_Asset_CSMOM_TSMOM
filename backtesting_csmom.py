@@ -149,7 +149,7 @@ def run_csmom_transformer_ranker(data_csmom, preload_model=False, preload_weight
                     X_arr_train[i],
                     deciles_train,
                     batch_size = transformer_ranker_csmom_best_params.get('batch_size'),
-                    epochs = 300, # hyperparams_fixed_csmom["Transformer_Ranker"]["epochs"],
+                    epochs = 300,
                     validation_data = (X_arr_valid[i], deciles_valid),
                     callbacks=[early_stopping])
                 transformer_ranker_csmom_histories.append(history_csmom)
@@ -253,19 +253,19 @@ def run_csmom_transformer_preranker_reranker(data_csmom, preload_model=False, pr
                             *args,
                             batch_size = hp.Choice('batch_size', values = hyperparams_grid_csmom["ListNet"]["batch_size"]),
                             **kwargs,)
-                # CSMOM LTR Pre-Ranker - Ground-Truth Decile Labels
-                deciles_train = np.zeros_like(y_arr_train[i])
+                # CSMOM LTR Pre-Ranker - Ground-Truth Quntile Labels
+                quintiles_train = np.zeros_like(y_arr_train[i])
                 for x in range(y_arr_train[i].shape[0]):
                     daily_returns = y_arr_train[i][x, :, 0]
-                    decile_thresholds = [np.percentile(daily_returns, t * 10) for t in range(1, 10)]
-                    daily_deciles = pd.cut(daily_returns, bins=[-np.inf] + decile_thresholds + [np.inf], labels=False, duplicates='drop') + 1
-                    deciles_train[x, :, 0] = daily_deciles
-                deciles_valid = np.zeros_like(y_arr_valid[i])
+                    quintile_thresholds = [np.percentile(daily_returns, t * 10) for t in range(1, 10)]
+                    daily_quintiles = pd.cut(daily_returns, bins=[-np.inf] + quintile_thresholds + [np.inf], labels=False, duplicates='drop') + 1
+                    quintiles_train[x, :, 0] = daily_quintiles
+                quintiles_valid = np.zeros_like(y_arr_valid[i])
                 for x in range(y_arr_valid[i].shape[0]):
                     daily_returns = y_arr_valid[i][x, :, 0]
-                    decile_thresholds = [np.percentile(daily_returns, t * 10) for t in range(1, 10)]
-                    daily_deciles = pd.cut(daily_returns, bins=[-np.inf] + decile_thresholds + [np.inf], labels=False, duplicates='drop') + 1
-                    deciles_valid[x, :, 0] = daily_deciles
+                    quintile_thresholds = [np.percentile(daily_returns, t * 10) for t in range(1, 10)]
+                    daily_quintiles = pd.cut(daily_returns, bins=[-np.inf] + quintile_thresholds + [np.inf], labels=False, duplicates='drop') + 1
+                    quintiles_valid[x, :, 0] = daily_quintiles
                 # CSMOM LTR Pre-Ranker - Hyperparameter Optimization
                 listnet_preranker_csmom_tuner = kt.RandomSearch(
                     CSMOMPrerankerHyperModel(),
@@ -276,9 +276,9 @@ def run_csmom_transformer_preranker_reranker(data_csmom, preload_model=False, pr
                 # CSMOM LTR Pre-Ranker - Hyperparameter Optimization - Grid Search
                 listnet_preranker_csmom_tuner.search(
                     X_arr_train[i].reshape(X_arr_train[i].shape[0]*X_arr_train[i].shape[1], X_arr_train[i].shape[2]),
-                    deciles_train.reshape(deciles_train.shape[0]*deciles_train.shape[1], 1),
+                    quintiles_train.reshape(quintiles_train.shape[0]*quintiles_train.shape[1], 1),
                     epochs = hyperparams_fixed_csmom["ListNet"]["epochs"],
-                    validation_data = (X_arr_valid[i].reshape(X_arr_valid[i].shape[0]*X_arr_valid[i].shape[1], X_arr_valid[i].shape[2]), deciles_valid.reshape(deciles_valid.shape[0]*deciles_valid.shape[1], 1)),
+                    validation_data = (X_arr_valid[i].reshape(X_arr_valid[i].shape[0]*X_arr_valid[i].shape[1], X_arr_valid[i].shape[2]), quintiles_valid.reshape(quintiles_valid.shape[0]*quintiles_valid.shape[1], 1)),
                     callbacks = [early_stopping_csmom])
                 # CSMOM LTR Pre-Ranker - Model with Validated Hyperparameters
                 listnet_preranker_csmom_best_params = listnet_preranker_csmom_tuner.get_best_hyperparameters(num_trials=1)[0]
@@ -286,10 +286,10 @@ def run_csmom_transformer_preranker_reranker(data_csmom, preload_model=False, pr
                 listnet_preranker_csmom = listnet_preranker_csmom_tuner.hypermodel.build(listnet_preranker_csmom_best_params)
                 listnet_preranker_csmom_history = listnet_preranker_csmom.fit(
                     X_arr_train[i].reshape(X_arr_train[i].shape[0]*X_arr_train[i].shape[1], X_arr_train[i].shape[2]),
-                    deciles_train.reshape(deciles_train.shape[0]*deciles_train.shape[1], 1),
+                    quintiles_train.reshape(quintiles_train.shape[0]*quintiles_train.shape[1], 1),
                     batch_size = listnet_preranker_csmom_best_params.get('batch_size'),
-                    epochs = 300, # hyperparams_fixed_csmom["Transformer_Reranker"]["epochs"],
-                    validation_data = (X_arr_valid[i].reshape(X_arr_valid[i].shape[0]*X_arr_valid[i].shape[1], X_arr_valid[i].shape[2]), deciles_valid.reshape(deciles_valid.shape[0]*deciles_valid.shape[1], 1)),
+                    epochs = 300,
+                    validation_data = (X_arr_valid[i].reshape(X_arr_valid[i].shape[0]*X_arr_valid[i].shape[1], X_arr_valid[i].shape[2]), quintiles_valid.reshape(quintiles_valid.shape[0]*quintiles_valid.shape[1], 1)),
                     callbacks=[early_stopping_csmom])
                 listnet_preranker_csmom_histories.append(listnet_preranker_csmom_history)
                 listnet_preranker_csmom_labels.append(f"CSMOM ListNet Pre-Ranker (Batch #{i})")
@@ -416,7 +416,7 @@ def run_csmom_transformer_preranker_reranker(data_csmom, preload_model=False, pr
                         x = transformer_reranker_csmom_model_input[portfolio]["X_train"],
                         y = transformer_reranker_csmom_model_input[portfolio]["y_train"],
                         batch_size = transformer_reranker_csmom_best_params.get('batch_size'),
-                        epochs = 300, # hyperparams_fixed_csmom["Transformer_Reranker"]["epochs"],
+                        epochs = 300,
                         validation_data=(transformer_reranker_csmom_model_input[portfolio]["X_valid"], transformer_reranker_csmom_model_input[portfolio]["y_valid"]),
                         callbacks=[early_stopping_csmom])
                     transformer_reranker_csmom_histories.append(transformer_reranker_csmom_history)
