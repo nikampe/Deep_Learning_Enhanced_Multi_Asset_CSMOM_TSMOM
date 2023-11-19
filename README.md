@@ -27,4 +27,4 @@
 ![TSMOM Model Backtesting - Cumulative Returns (Log-Scale)](/figures_tables/TSMOM%20-%20Model%20Backtesting%20-%20Cumulative%20Returns%20(Log-Scale).jpg)
 
 ## Full Thesis
-![Thesis](Thesis.pdf)
+![Thesis](thesis.pdf)
