@@ -1,0 +1,15 @@
+\begin{tabular}{lllllllll}
+\toprule
+ & Random (m=50) & TSMOM 3M (m=50) & TSMOM 6M (m=50) & TSMOM 12M (m=50) & RNN (m=50) & LSTM (m=50) & Encoder-Decoder Transformer (m=50) & Decoder-Only Transformer (m=50) \\
+\midrule
+\textbf{Ann. Return} & -0.1118 & 0.0579 & 0.0688 & 0.0812 & 0.1258 & 0.0605 & 0.1293 & 0.0592 \\
+\textbf{Ann. Volatility} & 0.1534 & 0.1546 & 0.1544 & 0.1547 & 0.1546 & 0.1532 & 0.1547 & 0.1546 \\
+\textbf{Sharpe Ratio} & -0.6962 & 0.4416 & 0.5083 & 0.5824 & 0.8440 & 0.4599 & 0.8633 & 0.4497 \\
+\textbf{Downside Risk} & 0.1141 & 0.1073 & 0.1083 & 0.1087 & 0.1053 & 0.1079 & 0.1043 & 0.1097 \\
+\textbf{Max Drawdown} & 0.8436 & 0.3851 & 0.4764 & 0.3460 & 0.2454 & 0.4089 & 0.3405 & 0.4458 \\
+\textbf{Calmar Ratio} & -0.1325 & 0.1504 & 0.1444 & 0.2347 & 0.5126 & 0.1479 & 0.3796 & 0.1329 \\
+\textbf{% Positive Returns} & 0.4868 & 0.5190 & 0.5206 & 0.5196 & 0.5238 & 0.5193 & 0.5304 & 0.5183 \\
+\textbf{Profit-Loss Ratio} & 0.9402 & 0.9979 & 1.0023 & 1.0199 & 1.0470 & 0.9992 & 1.0241 & 1.0016 \\
+\textbf{Sortino Ratio} & -0.9360 & 0.6363 & 0.7247 & 0.8285 & 1.2384 & 0.6527 & 1.2797 & 0.6335 \\
+\bottomrule
+\end{tabular}

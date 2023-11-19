@@ -6,6 +6,7 @@ import keras_tuner as kt
 # Hyperparameters
 from settings.global_params import global_params
 from settings.hyper_params import hyperparams_fixed_csmom, hyperparams_grid_csmom
+from settings.strategy_params import strategy_params_csmom
 
 # Early stopping callback
 early_stopping = tf.keras.callbacks.EarlyStopping(
@@ -38,8 +39,6 @@ class MLPModel(tf.keras.Model):
         output = self.output_layer(x)
         return output
 
-prefix = ""
-
 class CSMOMMlp:
     def __init__(self, data_csmom):
         # Load CSMOM data
@@ -53,8 +52,7 @@ class CSMOMMlp:
     def train(self, X_train, y_train, X_valid, y_valid, start_year_train, end_year_train, preload_model):
         if not preload_model:
             # Number of Assets & Batch Size
-            num_assets = self.X_arr_train[0].shape[1]
-            batch_sizes = np.multiply(num_assets, hyperparams_grid_csmom["MLP"]["mini_batch_size"]).tolist()
+            num_assets = strategy_params_csmom["num_total_assets"]
             # Model Building
             class CSMOMMLPHyperModel(kt.HyperModel):
                 def build(self, hp):
@@ -70,7 +68,7 @@ class CSMOMMlp:
                 def fit(self, hp, model, *args, **kwargs):
                     return model.fit(
                         *args,
-                        batch_size = hp.Choice('batch_size', values = batch_sizes),
+                        batch_size = hp.Choice('batch_size', values = hyperparams_grid_csmom["MLP"]["batch_size"]),
                         **kwargs,)
             # Hyperparameter Optimization
             model_tuner = kt.RandomSearch(
@@ -78,7 +76,7 @@ class CSMOMMlp:
                 objective = 'val_loss',
                 max_trials = hyperparams_fixed_csmom["MLP"]["random_search_max_trials"],
                 directory = 'models/hyperparameter_optimization_models',
-                project_name = f'{prefix}csmom_mlp_{start_year_train}_{end_year_train}')
+                project_name = f'csmom_mlp_{start_year_train}_{end_year_train}')
             # Hyperparameter Optimization - Grid Search
             model_tuner.search(
                 X_train,
@@ -98,9 +96,9 @@ class CSMOMMlp:
                 validation_data = (X_valid, y_valid),
                 callbacks=[early_stopping])
             # Save Model
-            model.save(f'models/pretrained_models/{prefix}csmom_mlp_{start_year_train}_{end_year_train}.tf')
+            model.save(f'models/pretrained_models/csmom_mlp_{start_year_train}_{end_year_train}.tf')
         else:
-            model = tf.keras.models.load_model(f'models/pretrained_models/{prefix}csmom_mlp_{start_year_train}_{end_year_train}.tf')
+            model = tf.keras.models.load_model(f'models/pretrained_models/csmom_mlp_{start_year_train}_{end_year_train}.tf')
         return model
 
     def weights(self, n, preload_model=False):

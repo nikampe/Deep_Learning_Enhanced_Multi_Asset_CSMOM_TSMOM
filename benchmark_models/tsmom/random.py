@@ -7,4 +7,5 @@ class TSMOMRandom:
 
     def weights(self):
         weights = np.random.choice([-1, 1], size=(self.num_days, self.num_assets))
+        np.savetxt(f"data/predictions/tsmom_random_weights.csv", weights, delimiter=",")
         return weights

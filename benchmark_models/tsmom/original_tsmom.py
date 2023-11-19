@@ -11,4 +11,5 @@ class TSMOM:
         cumulative_returns = cumulative_returns[cumulative_returns.index.isin(self.rebalance_days)]
         weights = cumulative_returns.applymap(np.sign)
         weights = weights.to_numpy()
+        np.savetxt(f"data/predictions/tsmom_original_{int(lookback/21)}m_weights.csv", weights, delimiter=",")
         return weights

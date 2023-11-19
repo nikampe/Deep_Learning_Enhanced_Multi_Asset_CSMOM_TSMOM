@@ -19,5 +19,5 @@ class CSMOM:
             weights_daily[largest_indices] = 1 # 1/n
             weights_daily[smallest_indices] = -1 # 1/n
             weights_daily[np.setdiff1d(np.arange(weights_daily.size), np.concatenate((largest_indices, smallest_indices)))] = 0
-        np.savetxt(f"data/predictions/csmom_original_{lookback}m_weights.csv", weights, delimiter=",")
+        np.savetxt(f"data/predictions/csmom_original_{int(lookback/21)}m_weights.csv", weights, delimiter=",")
         return weights

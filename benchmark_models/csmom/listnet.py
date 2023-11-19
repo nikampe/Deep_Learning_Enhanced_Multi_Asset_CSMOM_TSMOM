@@ -6,12 +6,13 @@ import keras_tuner as kt
 # Hyperparameters
 from settings.global_params import global_params
 from settings.hyper_params import hyperparams_fixed_csmom, hyperparams_grid_csmom
+from settings.strategy_params import strategy_params_csmom
 
 # Loss Function (ListNet)
 @tf.keras.utils.register_keras_serializable()
 def listnet_loss(y_true, y_pred):
-    y_true = tf.reshape(y_true, (-1, 50))
-    y_pred = tf.reshape(y_pred, (-1, 50))
+    y_true = tf.reshape(y_true, (-1, strategy_params_csmom["num_total_assets"]))
+    y_pred = tf.reshape(y_pred, (-1, strategy_params_csmom["num_total_assets"]))
     y_true_probs = tf.nn.softmax(y_true, axis=-1)
     y_pred_probs = tf.nn.softmax(y_pred, axis=-1)
     loss = -tf.reduce_sum(y_true_probs * tf.math.log(y_pred_probs + 1e-8), axis=-1)
@@ -48,8 +49,6 @@ class ListNetModel(tf.keras.Model):
         output = self.output_layer(x)
         return output
 
-prefix = ""
-
 class ListNet:
     def __init__(self, data_csmom):
         # Load CSMOM data
@@ -63,8 +62,7 @@ class ListNet:
     def train(self, X_train, y_train, X_valid, y_valid, start_year_train, end_year_train, preload_model):
         if not preload_model:
             # Number of Assets & Batch Size
-            num_assets = self.X_arr_train[0].shape[1]
-            batch_sizes = np.multiply(num_assets, hyperparams_grid_csmom["ListNet"]["mini_batch_size"]).tolist()
+            num_assets = strategy_params_csmom["num_total_assets"]
             # Model Building
             class CSMOMPrerankerHyperModel(kt.HyperModel):
                 def build(self, hp):
@@ -80,7 +78,7 @@ class ListNet:
                 def fit(self, hp, model, *args, **kwargs):
                     return model.fit(
                         *args,
-                        batch_size = hp.Choice('batch_size', values = batch_sizes),
+                        batch_size = hp.Choice('batch_size', values = hyperparams_grid_csmom["ListNet"]["batch_size"]),
                         **kwargs,)
             # Hyperparameter Optimization
             model_tuner = kt.RandomSearch(
@@ -88,7 +86,7 @@ class ListNet:
                 objective = 'val_loss',
                 max_trials = hyperparams_fixed_csmom["ListNet"]["random_search_max_trials"],
                 directory = 'models/hyperparameter_optimization_models',
-                project_name = f'{prefix}csmom_listnet_{start_year_train}_{end_year_train}')
+                project_name = f'csmom_ln_{start_year_train}_{end_year_train}')
             # Hyperparameter Optimization - Grid Search
             model_tuner.search(
                 X_train,
@@ -108,9 +106,9 @@ class ListNet:
                 validation_data = (X_valid, y_valid),
                 callbacks=[early_stopping])
             # Save Model
-            model.save(f'models/pretrained_models/{prefix}csmom_listnet_{start_year_train}_{end_year_train}.tf')
+            model.save(f'models/pretrained_models/csmom_ln_{start_year_train}_{end_year_train}.tf')
         else:
-            model = tf.keras.models.load_model(f'models/pretrained_models/{prefix}csmom_listnet_{start_year_train}_{end_year_train}.tf')
+            model = tf.keras.models.load_model(f'models/pretrained_models/csmom_ln_{start_year_train}_{end_year_train}.tf')
         return model
 
     def weights(self, n, preload_model=False):
@@ -166,5 +164,5 @@ class ListNet:
             for q, bottom_n_assets_i in enumerate(bottom_n_assets):
                 weights_interval[q][bottom_n_assets_i] = -1
             weights = np.vstack([weights, weights_interval]) if len(weights) > 0 else weights_interval
-        np.savetxt(f"data/predictions/csmom_listnet_weights.csv", weights, delimiter=",")
+        np.savetxt(f"data/predictions/csmom_ln_weights.csv", weights, delimiter=",")
         return weights
